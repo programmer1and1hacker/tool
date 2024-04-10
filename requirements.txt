@@ -1,0 +1,4 @@
+fake_useragent
+pyautogui
+requests
+tabulate
