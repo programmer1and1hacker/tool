@@ -71,7 +71,7 @@ __system - Search all information about your computer__
 
 __wifi - Work with wifi__
 
-__tor - Enable anonymous network tor__
+__tor - Anonymous network the tor__
 
 __mac - Change mac-address__
 
