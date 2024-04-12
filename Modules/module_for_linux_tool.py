@@ -142,6 +142,29 @@ def fuzzer_attack_wifi(how_much_time_long_attack):
     else: 
         subprocess.run('systemctl start NetworkManager'.split(), stdout = subprocess.DEVNULL, stderr = subprocess.DEVNULL)
         raise SystemError
+def change_ip_address(): 
+    geting_current_ip_address_computer = subprocess.run('ip route'.split(), stdout = subprocess.PIPE, stderr = subprocess.DEVNULL)
+    try: current_ip_address_computer = re.findall(r'(\d+[.]\d+[.]\d+[.]\d+)', geting_current_ip_address_computer.stdout.decode())[1]
+    except IndexError: raise ConnectionError
+    if os.path.exists('/usr/local/bin/toriptables2.py'): geting_new_ip_address_computer = subprocess.run('sudo toriptables2.py -r'.split(), stdout = subprocess.PIPE, stderr = subprocess.DEVNULL)
+    else:
+        subprocess.run('sudo apt install -y tor'.split(), stdout = subprocess.DEVNULL, stderr = subprocess.DEVNULL), subprocess.run('sudo systemctl start tor'.split(), stdout = subprocess.DEVNULL, stderr = subprocess.DEVNULL), subprocess.run('git clone https://github.com/ruped24/toriptables2'.split(), stdout = subprocess.DEVNULL, stderr = subprocess.DEVNULL), subprocess.run('sudo mv toriptables2/toriptables2.py /usr/local/bin'.split(), stdout = subprocess.DEVNULL, stderr = subprocess.DEVNULL), subprocess.run('sudo rm -r toriptables2'.split(), stdout = subprocess.DEVNULL, stderr = subprocess.DEVNULL)
+        geting_new_ip_address_computer = subprocess.run('sudo toriptables2.py -l'.split(), stdout = subprocess.PIPE, stderr = subprocess.DEVNULL)
+    try: geting_new_ip_address_computer = re.search(r'(\d+[.]\d+[.]\d+[.]\d+)', geting_new_ip_address_computer.stdout.decode()).group(1)
+    except AttributeError: raise SystemError
+    all_information_about_ip_addresses = {'current_ip_address': current_ip_address_computer, 'new_ip_address': geting_new_ip_address_computer}
+    return all_information_about_ip_addresses
+def change_mac_address():
+    geting_interface = subprocess.run('ip link'.split(), stdout = subprocess.PIPE, stderr = subprocess.DEVNULL)
+    interface = re.search(r'\d+[:]\s(\w+)[:]+.+state\sUP', geting_interface.stdout.decode())
+    if interface: interface = interface.group(1)
+    else: raise ConnectionError
+    subprocess.run(f'sudo ifconfig {interface} down'.split(), stdout = subprocess.DEVNULL, stderr = subprocess.DEVNULL)
+    mac_address_information = subprocess.run(f'sudo macchanger {interface} -r'.split(), stdout = subprocess.PIPE, stderr = subprocess.DEVNULL)
+    subprocess.run(f'sudo ifconfig {interface} up'.split(), stdout = subprocess.DEVNULL, stderr = subprocess.DEVNULL)
+    current_mac_address, new_mac_address = re.search(r'Current\sMAC[:]\s+(\S+)', mac_address_information.stdout.decode()).group(1), re.search(r'New\sMAC:\s+(\S+)', mac_address_information.stdout.decode()).group(1)
+    all_information_about_changed_mac_addresses = {'current_mac_address': current_mac_address, 'new_mac_address': new_mac_address}
+    return all_information_about_changed_mac_addresses
 def scanner(target_ip_address_or_url_website): 
     geting_interface = subprocess.run('ip link'.split(), stdout = subprocess.PIPE, stderr = subprocess.DEVNULL)
     interface = re.search(r'\d+[:]\s(\w+)[:]+.+state\sUP', geting_interface.stdout.decode())
@@ -177,26 +200,3 @@ def search_web_directories_of_this_website(url_website):
         if one_url_of_website: all_found_url_of_website.append(one_url_of_website.group(1))
     if all_found_url_of_website == []: all_found_url_of_website.append('NOT FOUND INFORMATION')
     return all_found_url_of_website
-def change_ip_address(): 
-    geting_current_ip_address_computer = subprocess.run('ip route'.split(), stdout = subprocess.PIPE, stderr = subprocess.DEVNULL)
-    try: current_ip_address_computer = re.findall(r'(\d+[.]\d+[.]\d+[.]\d+)', geting_current_ip_address_computer.stdout.decode())[1]
-    except IndexError: raise ConnectionError
-    if os.path.exists('/usr/local/bin/toriptables2.py'): geting_new_ip_address_computer = subprocess.run('sudo toriptables2.py -r'.split(), stdout = subprocess.PIPE, stderr = subprocess.DEVNULL)
-    else:
-        subprocess.run('sudo apt install -y tor'.split(), stdout = subprocess.DEVNULL, stderr = subprocess.DEVNULL), subprocess.run('sudo systemctl start tor'.split(), stdout = subprocess.DEVNULL, stderr = subprocess.DEVNULL), subprocess.run('git clone https://github.com/ruped24/toriptables2'.split(), stdout = subprocess.DEVNULL, stderr = subprocess.DEVNULL), subprocess.run('sudo mv toriptables2/toriptables2.py /usr/local/bin'.split(), stdout = subprocess.DEVNULL, stderr = subprocess.DEVNULL), subprocess.run('sudo rm -r toriptables2'.split(), stdout = subprocess.DEVNULL, stderr = subprocess.DEVNULL)
-        geting_new_ip_address_computer = subprocess.run('sudo toriptables2.py -l'.split(), stdout = subprocess.PIPE, stderr = subprocess.DEVNULL)
-    try: geting_new_ip_address_computer = re.search(r'(\d+[.]\d+[.]\d+[.]\d+)', geting_new_ip_address_computer.stdout.decode()).group(1)
-    except AttributeError: raise SystemError
-    all_information_about_ip_addresses = {'current_ip_address': current_ip_address_computer, 'new_ip_address': geting_new_ip_address_computer}
-    return all_information_about_ip_addresses
-def change_mac_address():
-    geting_interface = subprocess.run('ip link'.split(), stdout = subprocess.PIPE, stderr = subprocess.DEVNULL)
-    interface = re.search(r'\d+[:]\s(\w+)[:]+.+state\sUP', geting_interface.stdout.decode())
-    if interface: interface = interface.group(1)
-    else: raise ConnectionError
-    subprocess.run(f'sudo ifconfig {interface} down'.split(), stdout = subprocess.DEVNULL, stderr = subprocess.DEVNULL)
-    mac_address_information = subprocess.run(f'sudo macchanger {interface} -r'.split(), stdout = subprocess.PIPE, stderr = subprocess.DEVNULL)
-    subprocess.run(f'sudo ifconfig {interface} up'.split(), stdout = subprocess.DEVNULL, stderr = subprocess.DEVNULL)
-    current_mac_address, new_mac_address = re.search(r'Current\sMAC[:]\s+(\S+)', mac_address_information.stdout.decode()).group(1), re.search(r'New\sMAC:\s+(\S+)', mac_address_information.stdout.decode()).group(1)
-    all_information_about_changed_mac_addresses = {'current_mac_address': current_mac_address, 'new_mac_address': new_mac_address}
-    return all_information_about_changed_mac_addresses
