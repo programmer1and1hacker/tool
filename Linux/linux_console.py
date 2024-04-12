@@ -1,13 +1,14 @@
 import Modules.module_for_base_tool as module_for_base_tool, Modules.module_for_linux_tool as module_for_linux_tool
 from subprocess import run, DEVNULL
 from tabulate import tabulate
+from os.path import exists
 from re import search
 from os import system
 def start_console_linux(): 
     while True:
-        try: command_user, linux_commands = input('>>> ').strip(), ['help', 'clear', 'system', 'wifi', 'search wifi', 'hack wifi', 'dos wifi', 'beacon wifi', 'fuzzer wifi', 'tor', 'mac', 'search ip', 'scan', 'screenshot', 'sms bomber', 'ddos', 'website', 'set website', 'check website', 'file', 'shutdown', 'exit']
+        try: command_user, linux_commands = input('>>> ').strip(), ['help', 'clear', 'system', 'wifi', 'search wifi', 'hack wifi', 'dos wifi', 'beacon wifi', 'fuzzer wifi', 'tor', 'tor -e', 'tor -d', 'mac', 'search ip', 'scan', 'screenshot', 'sms bomber', 'ddos', 'website', 'set website', 'check website', 'file', 'shutdown', 'exit']
         except KeyboardInterrupt: exit()
-        if 'help' == command_user: print('help - Output about all commands information\nclear - Clear output\nsystem - Search all information about your computer\nwifi - Work with wifi\ntor - Enable anonymous network tor\nmac - Change mac-address\nsearch ip - Search all ip-addresses connected your network\nscan - Ip-address or website scan OS and ports\nscreenshot file name - Make screenshot\nsms bomber - It is number phone sms bomber only Ukraine number phone example +380500334635\nddos - Distributed denial of service attack on ip-address\nwebsite - Download website or check all web directories of this website\nfile - Encode file or decode file\nshutdown - Shutdown your computer\nexit - Exit in the program')
+        if 'help' == command_user: print('help - Output about all commands information\nclear - Clear output\nsystem - Search all information about your computer\nwifi - Work with wifi\ntor - Anonymous network the tor\nmac - Change mac-address\nsearch ip - Search all ip-addresses connected your network\nscan - Ip-address or website scan OS and ports\nscreenshot file name - Make screenshot\nsms bomber - It is number phone sms bomber only Ukraine number phone example +380500334635\nddos - Distributed denial of service attack on ip-address\nwebsite - Download website or check all web directories of this website\nfile - Encode file or decode file\nshutdown - Shutdown your computer\nexit - Exit in the program')
         if 'clear' == command_user: system('clear')
         if 'system' == command_user: 
             computer, interfaces = module_for_linux_tool.system_info(), []
@@ -68,12 +69,17 @@ def start_console_linux():
                     except SystemError: system('clear'), print("You haven't interface with monitor mode")
                     continue
             except AttributeError: print('search wifi - Search wifi around you\nhack wifi -s name wifi - or - hack wifi -s name wifi -d path to file password format only txt - Hack wifi and get password or wps pin of wifi\ndos wifi -s name wifi -t how much time long attack - Distributed denial of wifi attack\nbeacon wifi -t how much time long attack - Beacon flood attack wifi this can sometimes crash network scanners and even drivers\nfuzzer wifi -t how much time long attack - Fuzzer attack on wifi a simple packet fuzzer with multiple packet sources and a nice set of modifiers')
-        if 'tor' == command_user:
-            try:
-                ip_address = module_for_linux_tool.change_ip_address()
-                print(tabulate([(ip_address['current_ip_address'], ip_address['new_ip_address'])], headers = [('CURRENT-IP-ADDRESS'), ('NEW-IP-ADDRESS')], tablefmt = 'grid'))
-            except ConnectionError: print('No internet connection')
-            except SystemError: print('Install error in the tool toriptables2')
+        if 'tor' in command_user:
+            if 'tor -e' == command_user: 
+                try:
+                    ip_address = module_for_linux_tool.change_ip_address()
+                    print(tabulate([(ip_address['current_ip_address'], ip_address['new_ip_address'])], headers = [('CURRENT-IP-ADDRESS'), ('NEW-IP-ADDRESS')], tablefmt = 'grid'))
+                except ConnectionError: print('No internet connection')
+                except SystemError: print('Install error in the tool toriptables2')
+            elif 'tor -d' == command_user:
+                if exists('/usr/local/bin/toriptables2.py'): run('sudo toriptables2.py -f'.split(), stdout = DEVNULL, stderr = DEVNULL), print('Disabled network the tor')
+                else: print("You haven't the tor")
+            else: print('tor -e - Enable anonymous network the tor\ntor -d - Disable network the tor')
         if 'mac' == command_user: 
             try: 
                 mac_address = module_for_linux_tool.change_mac_address()
@@ -168,4 +174,4 @@ def start_console_linux():
             except IndexError: print('file -e file path - this for encode file\nfile -d file encoded path - this for decode file') 
         if 'shutdown' == command_user: run('shutdown', stdout = DEVNULL, stderr = DEVNULL)
         elif not command_user in linux_commands: print(f'Not found command {command_user}')
-        if 'exit' == command_user: exit() 
+        if 'exit' == command_user: exit()
