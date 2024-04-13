@@ -173,5 +173,5 @@ def start_console_linux():
                 else: print('file -e file path - this for encode file\nfile -d file encoded path - this for decode file') 
             except IndexError: print('file -e file path - this for encode file\nfile -d file encoded path - this for decode file') 
         if 'shutdown' == command_user: run('shutdown', stdout = DEVNULL, stderr = DEVNULL)
-        elif not command_user in linux_commands: print(f'Not found command {command_user}')
         if 'exit' == command_user: exit()
+        if not command_user in linux_commands: print(f'Not found command {command_user}')
