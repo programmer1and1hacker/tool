@@ -70,5 +70,5 @@ def start_console_windows():
                     else: print('file -e file path - this for encode file\nfile -d file encoded path - this for decode file') 
                 except IndexError: print('file -e file path - this for encode file\nfile -d file encoded path - this for decode file') 
             if 'shutdown' == command_user: run('shutdown /f /t 0 /s'.split(), stdout = DEVNULL, stderr = DEVNULL)
-            elif not command_user in windows_commands: print(f'Not found command {command_user}')
             if 'exit' == command_user: exit()
+            if not command_user in windows_commands: print(f'Not found command {command_user}')
