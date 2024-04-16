@@ -67,20 +67,20 @@ def download_website(url_website, file_name):
         else: print("Didn't download website")
     except: raise ConnectionError
 def search_socials_network_profile(nickname):
-    nickname = nickname.replace(' ', '.')
-    try: get(url = 'https://www.google.com')
+    try:
+        nickname = nickname.replace(' ', '.')
+        for url_profile_facebook in findall(r'href="(\S+)"', get(url = f'https://www.facebook.com/{nickname}/').text):
+            if nickname in url_profile_facebook: 
+                if not '/' == url_profile_facebook[-1]: print(f'Facebook: {url_profile_facebook}/')
+                else: print(f'Facebook: {url_profile_facebook}')
+                break
+        if search(rf'(https://www.instagram.com/{nickname}/)', get(f'https://www.instagram.com/{nickname}/').text): print('Instagram: ' + search(rf'(https://www.instagram.com/{nickname}/)', get(f'https://www.instagram.com/{nickname}/').text).group(1))
+        if search(f'@{nickname.replace(".", "")}', get(url = f'https://www.tiktok.com/@{nickname.replace(".", "")}', headers = {'User-Agent': FakeUserAgent().random}).text): print(f'Tiktok: https://www.tiktok.com/@{nickname.replace(".", "")}/')
+        if search(nickname.replace(".", ""), get(url = f'https://t.me/s/{nickname.replace(".", "")}/').text): print(f'Telegram: https://t.me/s/{nickname.replace(".", "")}/')
+        if search(nickname.replace(".", ""), get(url = f'https://www.reddit.com/user/{nickname.replace(".", "")}/').text): print(f'Reddit: https://www.reddit.com/user/{nickname.replace(".", "")}/')
+        if search(nickname.replace(".", ""), get(url = f'https://www.pinterest.com/{nickname.replace(".", "")}/').text): print(f'Pinterest: https://www.pinterest.com/{nickname.replace(".", "")}/')
+        if not get(url = f'https://github.com/{nickname.replace(".", "")}/').text == 'Not Found': print(f'GitHub: https://github.com/{nickname.replace(".", "")}/')
     except: raise SystemError
-    for url_profile_facebook in findall(r'href="(\S+)"', get(url = f'https://www.facebook.com/{nickname}/').text):
-        if nickname in url_profile_facebook: 
-            if not '/' == url_profile_facebook[-1]: print(f'Facebook: {url_profile_facebook}/')
-            else: print(f'Facebook: {url_profile_facebook}')
-            break
-    if search(rf'(https://www.instagram.com/{nickname}/)', get(f'https://www.instagram.com/{nickname}/').text): print('Instagram: ' + search(rf'(https://www.instagram.com/{nickname}/)', get(f'https://www.instagram.com/{nickname}/').text).group(1))
-    if not get(url = f'https://github.com/{nickname.replace(".", "")}/').text == 'Not Found': print(f'GitHub: https://github.com/{nickname.replace(".", "")}/')
-    if search(nickname.replace(".", ""), get(url = f'https://www.reddit.com/user/{nickname.replace(".", "")}/').text): print(f'Reddit: https://www.reddit.com/user/{nickname.replace(".", "")}/')
-    if search(nickname.replace(".", ""), get(url = f'https://www.pinterest.com/{nickname.replace(".", "")}/').text): print(f'Pinterest: https://www.pinterest.com/{nickname.replace(".", "")}/')
-    if search(nickname.replace(".", ""), get(url = f'https://t.me/s/{nickname.replace(".", "")}/').text): print(f'Telegram: https://t.me/s/{nickname.replace(".", "")}/')
-    print(f'Tiktok: https://www.tiktok.com/@{nickname.replace(".", "")}')
 def encode_file(file_path):
     try:
         with open(file = file_path, mode = 'r') as reading_for_encode_file: data = reading_for_encode_file.read()
