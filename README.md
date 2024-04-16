@@ -2,9 +2,9 @@ __The tool project !!!__
 ==
 Installation for Windows
 ----
-__Python install https://www.python.org/ftp/python/3.12.3/python-3.12.3-amd64.exe__
+__Python installation https://www.python.org/ftp/python/3.12.3/python-3.12.3-amd64.exe__
 
-__tool install https://github.com/programmer1and1hacker/tool/archive/refs/heads/tool.zip__
+__tool installation https://github.com/programmer1and1hacker/tool/archive/refs/heads/tool.zip__
 
 __This command enter in the cmd or terminal when you in the folder of the tool__
 ```
