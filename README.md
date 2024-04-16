@@ -42,6 +42,8 @@ __get wifi password - Get all passwords wifi save your computer__
 
 __website - Download website__
 
+__socials - Search profile socials network of nickname__
+
 __file - Encode file or decode file__
 
 __shutdown - Shutdown your computer__
@@ -86,6 +88,8 @@ __sms bomber - It is number phone sms bomber only Ukraine number phone example +
 __ddos - Distributed denial of service attack on ip-address__
 
 __website - Download website or check all web directories of this website__
+
+__socials - Search profile socials network of nickname__
 
 __file - Encode file or decode file__
 
