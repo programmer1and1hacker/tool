@@ -68,6 +68,8 @@ def download_website(url_website, file_name):
     except: raise ConnectionError
 def search_socials_network_profile(nickname):
     try:
+        def _other_socials(url, input): 
+            if search(nickname.replace(".", ""), get(url = url).text): print(input) 
         nickname = nickname.replace(' ', '.')
         for url_profile_facebook in findall(r'href="(\S+)"', get(url = f'https://www.facebook.com/{nickname}/').text):
             if nickname in url_profile_facebook: 
@@ -76,9 +78,7 @@ def search_socials_network_profile(nickname):
                 break
         if search(rf'(https://www.instagram.com/{nickname}/)', get(f'https://www.instagram.com/{nickname}/').text): print('Instagram: ' + search(rf'(https://www.instagram.com/{nickname}/)', get(f'https://www.instagram.com/{nickname}/').text).group(1))
         if search(f'@{nickname.replace(".", "")}', get(url = f'https://www.tiktok.com/@{nickname.replace(".", "")}', headers = {'User-Agent': FakeUserAgent().random}).text): print(f'Tiktok: https://www.tiktok.com/@{nickname.replace(".", "")}/')
-        if search(nickname.replace(".", ""), get(url = f'https://t.me/s/{nickname.replace(".", "")}/').text): print(f'Telegram: https://t.me/s/{nickname.replace(".", "")}/')
-        if search(nickname.replace(".", ""), get(url = f'https://www.reddit.com/user/{nickname.replace(".", "")}/').text): print(f'Reddit: https://www.reddit.com/user/{nickname.replace(".", "")}/')
-        if search(nickname.replace(".", ""), get(url = f'https://www.pinterest.com/{nickname.replace(".", "")}/').text): print(f'Pinterest: https://www.pinterest.com/{nickname.replace(".", "")}/')
+        _other_socials(url = f'https://t.me/s/{nickname.replace(".", "")}/', input = f'Telegram: https://t.me/s/{nickname.replace(".", "")}/'), _other_socials(url = f'https://www.reddit.com/user/{nickname.replace(".", "")}/', input = f'Reddit: https://www.reddit.com/user/{nickname.replace(".", "")}/'), _other_socials(url = f'https://www.pinterest.com/{nickname.replace(".", "")}/', input = f'Pinterest: https://www.pinterest.com/{nickname.replace(".", "")}/')
         if not get(url = f'https://github.com/{nickname.replace(".", "")}/').text == 'Not Found': print(f'GitHub: https://github.com/{nickname.replace(".", "")}/')
     except: raise SystemError
 def encode_file(file_path):
