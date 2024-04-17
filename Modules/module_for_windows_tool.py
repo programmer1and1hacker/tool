@@ -111,15 +111,15 @@ def scanner(target_ip_address):
              elif len(service) == 11:  print('-' * 25 + f'\nPORT     SERVICE     TYPE\n{port}   {service}   open')
              else: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n{port}  {service} open')
     try:
-        how_much_service = -1
+        how_much_service, services = -1, ['echo', 'discard', 'chargen', 'ftp', 'ssh', 'telnet', 'smtp', 'rsftp', 'time', 'dns', 'http', 'tor', 'pop3', 'sunrpc', 'mcidas', 'auth or ident', 'ntp', 'ms-rpc', 'netbios-ns', 'netbios-dgm', 'netbios-ssn', 'imap', 'snmp', 'snmptrap', 'dgp', 'ldp', 'https', 'snpp', 'microsoft-ds', 'smpts', 'shell or syslog', 'rtsp', 'imaps', 'pop3s', 'rpc', 'dcom or cap', 'dcom', 'upnp', 'rdp', 'upnp', 'vnc', 'sdk', 'http', 'http', 'sun-answerbook']
         for port in [7, 9, 19, 21, 22, 23, 25, 26, 37, 53, 80, 81, 110, 111, 112, 113, 123, 135, 137, 138, 139, 143, 161, 162, 179, 389, 443, 444, 445, 465, 514, 554, 993, 995, 1025, 1026, 1029, 1900, 3389, 5000, 5900, 8000, 8008, 8080, 8888]: 
-            for _ in ['echo', 'discard', 'chargen', 'ftp', 'ssh', 'telnet', 'smtp', 'rsftp', 'time', 'dns', 'http', 'tor', 'pop3', 'sunrpc', 'mcidas', 'auth or ident', 'ntp', 'ms-rpc', 'netbios-ns', 'netbios-dgm', 'netbios-ssn', 'imap', 'snmp', 'snmptrap', 'dgp', 'ldp', 'https', 'snpp', 'microsoft-ds', 'smpts', 'shell or syslog', 'rtsp', 'imaps', 'pop3s', 'rpc', 'dcom or cap', 'dcom', 'upnp', 'rdp', 'upnp', 'vnc', 'sdk', 'http', 'http', 'sun-answerbook']: 
+            for _ in services: 
                  how_much_service += 1
                  break
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as scanning:
                     try: scanning.connect((target_ip_address, port))
                     except: pass
-                    else: _output(port = port, service = ['echo', 'discard', 'chargen', 'ftp', 'ssh', 'telnet', 'smtp', 'rsftp', 'time', 'dns', 'http', 'tor', 'pop3', 'sunrpc', 'mcidas', 'auth or ident', 'ntp', 'ms-rpc', 'netbios-ns', 'netbios-dgm', 'etbios-ssn', 'imap', 'snmp', 'snmptrap', 'dgp', 'ldp', 'https', 'snpp', 'microsoft-ds', 'smpts', 'shell or syslog', 'rtsp', 'imaps', 'pop3s', 'rpc', 'dcom or cap', 'dcom', 'upnp', 'rdp', 'upnp', 'vnc', 'sdk', 'http', 'http', 'sun-answerbook'][how_much_service])
+                    else: _output(port = port, service = services[how_much_service])
     except KeyboardInterrupt: return
 def search_all_ip_addresses_connected_to_network():
     searching_all_ip_addresses, searching_mac_address_computer = subprocess.run('arp -a'.split(), stdout = subprocess.PIPE, stderr = subprocess.DEVNULL), subprocess.run('netsh wlan show all'.split(), stdout = subprocess.PIPE, stderr = subprocess.DEVNULL)
