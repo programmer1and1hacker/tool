@@ -84,57 +84,42 @@ def disconnecting_network(): subprocess.run('netsh wlan disconnect'.split(), std
 def scanner(target_ip_address):
     try: ip_address(target_ip_address), print(f'Scanning host: {target_ip_address}')
     except ValueError: print('Not correct ip-address')
+    def _output(port, service):
+        if len(str(port)) == 1: 
+             if len(service)  == 4: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}        {service}       open')
+             else: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}       {service}     open')
+        elif len(str(port)) == 2:
+             if len(service) == 3: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}        {service}       open')
+             elif len(service) == 4: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}       {service}       open')
+             elif len(service) == 5: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}       {service}      open')
+             elif len(service) == 6: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}      {service}      open')
+             else: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}      {service}     open')
+        elif len(str(port)) == 3:
+             if len(service) == 3: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}      {service}       open')
+             elif len(service) == 4: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}      {service}       open')
+             elif len(service) == 5: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}      {service}      open')
+             elif len(service) == 6: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}     {service}      open')
+             elif len(service) == 8: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}    {service}     open')
+             elif len(service) == 10: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}    {service}   open')
+             elif len(service) == 11: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}   {service}   open')
+             elif len(service) == 12: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}   {service}  open')
+             elif len(service) == 13: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}  {service}  open')
+             else: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port} {service} open')
+        else:
+             if len(service) == 3: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n{port}       {service}       open')
+             elif len(service) == 4: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n{port}      {service}       open')
+             elif len(service) == 11:  print('-' * 25 + f'\nPORT     SERVICE     TYPE\n{port}   {service}   open')
+             else: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n{port}  {service} open')
     try:
-        for port in [7, 9, 19, 21, 22, 23, 25, 26, 37, 53, 80, 81, 110, 111, 112, 113, 123, 135, 137, 138, 139, 143, 161, 162, 179, 389, 443, 444, 445, 465, 514, 554, 993, 995, 1025, 1026, 1029, 1900, 3389, 5000, 5900, 8000, 8008, 8080, 8888]:
+        how_much_service = -1
+        for port in [7, 9, 19, 21, 22, 23, 25, 26, 37, 53, 80, 81, 110, 111, 112, 113, 123, 135, 137, 138, 139, 143, 161, 162, 179, 389, 443, 444, 445, 465, 514, 554, 993, 995, 1025, 1026, 1029, 1900, 3389, 5000, 5900, 8000, 8008, 8080, 8888]: 
+            for _ in ['echo', 'discard', 'chargen', 'ftp', 'ssh', 'telnet', 'smtp', 'rsftp', 'time', 'dns', 'http', 'tor', 'pop3', 'sunrpc', 'mcidas', 'auth or ident', 'ntp', 'ms-rpc', 'netbios-ns', 'netbios-dgm', 'netbios-ssn', 'imap', 'snmp', 'snmptrap', 'dgp', 'ldp', 'https', 'snpp', 'microsoft-ds', 'smpts', 'shell or syslog', 'rtsp', 'imaps', 'pop3s', 'rpc', 'dcom or cap', 'dcom', 'upnp', 'rdp', 'upnp', 'vnc', 'sdk', 'http', 'http', 'sun-answerbook']: 
+                 how_much_service += 1
+                 break
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as scanning:
-                try: scanning.connect((target_ip_address, port))
-                except: pass
-                else: 
-                    if port == 7: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}        echo       open')
-                    if port == 9: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}       discard     open')
-                    if port == 19: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}      chargen     open')
-                    if port == 21: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}        ftp       open')
-                    if port == 22: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}        ssh       open')
-                    if port == 23: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}      telnet      open')
-                    if port == 25: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}       smtp       open')
-                    if port == 26: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}       rsftp      open')
-                    if port == 37: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}       time       open')
-                    if port == 53: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}        dns       open')
-                    if port == 80: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}        http      open')
-                    if port == 81: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}        tor       open')
-                    if port == 110: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}      pop3       open')
-                    if port == 111: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}     sunrpc      open')
-                    if port == 112: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}     mcidas      open')
-                    if port == 113: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}  auth or ident  open')
-                    if port == 123: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}       ntp       open')
-                    if port == 135: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}      ms-rpc     open')
-                    if port == 137: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}    netbios-ns   open')
-                    if port == 138: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}   netbios-dgm   open')
-                    if port == 139: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}   netbios-ssn   open')
-                    if port == 143: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}      imap       open')
-                    if port == 161: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}   snmp   open')
-                    if port == 162: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}    snmptrap     open')
-                    if port == 179: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}       dgp       open')
-                    if port == 389: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}       ldp       open')
-                    if port == 443: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}      https      open')
-                    if port == 444: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}      snpp       open')
-                    if port == 445: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}   microsoft-ds  open')
-                    if port == 465: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}      smpts      open')
-                    if port == 514: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port} shell or syslog open')
-                    if port == 554: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}      rtsp       open')
-                    if port == 993: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}      imaps      open')
-                    if port == 995: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n {port}      pop3s      open')
-                    if port == 1025: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n{port}       rpc       open')
-                    if port == 1026: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n{port}   dcom or cap   open')
-                    if port == 1029: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n{port}      dcom       open')
-                    if port == 1900: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n{port}      upnp       open')
-                    if port == 3389: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n{port}       rdp       open')
-                    if port == 5000: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n{port}       upnp      open')
-                    if port == 5900: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n{port}       vnc       open')
-                    if port == 8000: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n{port}       sdk       open')
-                    if port == 8008: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n{port}      http       open')
-                    if port == 8080: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n{port}       http      open')
-                    if port == 8888: print('-' * 25 + f'\nPORT     SERVICE     TYPE\n{port}  sun-answerbook open')
+                    try: scanning.connect((target_ip_address, port))
+                    except: pass
+                    else: _output(port = port, service = ['echo', 'discard', 'chargen', 'ftp', 'ssh', 'telnet', 'smtp', 'rsftp', 'time', 'dns', 'http', 'tor', 'pop3', 'sunrpc', 'mcidas', 'auth or ident', 'ntp', 'ms-rpc', 'netbios-ns', 'netbios-dgm', 'etbios-ssn', 'imap', 'snmp', 'snmptrap', 'dgp', 'ldp', 'https', 'snpp', 'microsoft-ds', 'smpts', 'shell or syslog', 'rtsp', 'imaps', 'pop3s', 'rpc', 'dcom or cap', 'dcom', 'upnp', 'rdp', 'upnp', 'vnc', 'sdk', 'http', 'http', 'sun-answerbook'][how_much_service])
     except KeyboardInterrupt: return
 def search_all_ip_addresses_connected_to_network():
     searching_all_ip_addresses, searching_mac_address_computer = subprocess.run('arp -a'.split(), stdout = subprocess.PIPE, stderr = subprocess.DEVNULL), subprocess.run('netsh wlan show all'.split(), stdout = subprocess.PIPE, stderr = subprocess.DEVNULL)
