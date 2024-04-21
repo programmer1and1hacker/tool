@@ -4,6 +4,7 @@ from re import search
 from os import system
 def start_console_windows():
     while True:
+        try: 
             try: command_user, windows_commands = input('>>> ').strip(), ['help', 'clear', 'system', 'search wifi', 'network', 'network -c', 'network -d', 'search ip', 'scan', 'get wifi password', 'screenshot', 'sms bomber', 'ddos', 'website', 'socials', 'file', 'shutdown', 'exit']
             except KeyboardInterrupt: exit()
             if 'help' == command_user: print('help - Output about all commands information\nclear - Clear output\nsystem - Search all information about your computer\nsearch wifi - Search wifi around you\nnetwork - This work to network\nsearch ip - Search all ip-addresses connected your network\nscan ip-address - Scan ports of ip-address\nget wifi password - Get all passwords wifi save your computer\nscreenshot file name - Make screenshot\nsms bomber - It is number phone sms bomber only Ukraine number phone example +380500334635\nddos - Distributed denial of service attack on ip-address\nget wifi password - Get all passwords wifi save your computer\nwebsite - Download website\nsocials - Search profile socials network of nickname\nfile - Encode file or decode file\nshutdown - Shutdown your computer\nexit - Exit in the program')
@@ -58,7 +59,7 @@ def start_console_windows():
                 except ConnectionError: print('No internet connection')
             if 'socials' in command_user:
                 try:
-                    if f'socials {search(r'socials (\S+.+)', command_user).group(1)}': 
+                    if f'socials {search(r"socials (\S+.+)", command_user).group(1)}': 
                         try: windows_commands.append(f'socials {search(r"socials (\S+.+)", command_user).group(1)}'), module_for_base_tool.search_socials_network_profile(nickname = search(r'socials (\S+.+)', command_user).group(1))
                         except SystemError: print("Didn't work to search profile socials network of nickname")
                 except AttributeError: print('socials nickname - search profile socials network of nickname') 
@@ -78,3 +79,4 @@ def start_console_windows():
             if 'shutdown' == command_user: run('shutdown /f /t 0 /s'.split(), stdout = DEVNULL, stderr = DEVNULL)
             if 'exit' == command_user: exit()
             if not command_user in windows_commands: print(f'Not found command {command_user}')
+        except FileNotFoundError: print("Didn't work this tool")
