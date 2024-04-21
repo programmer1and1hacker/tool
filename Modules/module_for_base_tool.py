@@ -69,7 +69,7 @@ def download_website(url_website, file_name):
 def search_socials_network_profile(nickname):
     try:
         def _other_socials(url, input): 
-            if search(nickname.replace(".", ""), get(url = url).text): print(input) 
+            if search(nickname.replace('.', ''), get(url = url).text): print(input) 
         nickname = nickname.replace(' ', '.')
         for url_profile_facebook in findall(r'href="(\S+)"', get(url = f'https://www.facebook.com/{nickname}/').text):
             if nickname in url_profile_facebook: 
