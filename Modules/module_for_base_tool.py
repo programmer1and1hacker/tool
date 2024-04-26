@@ -1,10 +1,12 @@
+try:
+    from fake_useragent import FakeUserAgent
+    from requests import get, post
+    from pyautogui import screenshot
+except ModuleNotFoundError: print("You didn't install modules for work anger, please copy this command in the shell, pip install -r requirements.txt"), exit()
 import socket
-from fake_useragent import FakeUserAgent
 from base64 import a85encode, a85decode
 from subprocess import run, DEVNULL
 from ipaddress import ip_address
-from pyautogui import screenshot
-from requests import get, post
 from re import search, findall
 from threading import Thread
 from random import choice
