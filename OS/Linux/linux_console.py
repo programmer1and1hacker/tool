@@ -1,6 +1,7 @@
 import Modules.module_for_base_tool as module_for_base_tool, Modules.module_for_linux_tool as module_for_linux_tool
 from subprocess import run, DEVNULL
-from tabulate import tabulate
+try: from tabulate import tabulate
+except ModuleNotFoundError: print("You didn't install modules for work anger, please copy this command in the shell, pip install -r requirements.txt")
 from os.path import exists
 from re import search
 from os import system
